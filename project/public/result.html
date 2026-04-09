@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Krishi Analysis Result 🌱</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result-card {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 1px solid #bbf7d0;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #16a34a;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-green-50 to-green-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-md">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                    <span class="text-xl font-bold text-green-800">Smart Krishi 1.0 🌱</span>
+                </div>
+                <button onclick="goBack()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors">
+                    ← Go Back
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="text-center mb-8 fade-in">
+            <h1 class="text-3xl md:text-4xl font-bold text-green-800 mb-4">
+                🌱 Smart Krishi Analysis Result
+            </h1>
+            <p class="text-lg text-green-700">
+                AI-powered soil analysis and farming recommendations
+            </p>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loading" class="text-center py-12">
+            <div class="loading mx-auto mb-4"></div>
+            <p class="text-green-700 text-lg">Analyzing your soil data...</p>
+            <p class="text-green-600 text-sm mt-2">Our AI is generating personalized recommendations for you</p>
+        </div>
+
+        <!-- Result Card -->
+        <div id="result-container" class="hidden fade-in">
+            <div class="result-card rounded-2xl shadow-xl p-8 mb-8">
+                <div class="flex items-center mb-6">
+                    <svg class="w-8 h-8 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <h2 class="text-2xl font-bold text-green-800">Analysis Complete</h2>
+                </div>
+                
+                <div id="ai-response" class="prose prose-green max-w-none">
+                    <!-- AI response will be inserted here -->
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button onclick="goBack()" class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    ← Back to Form
+                </button>
+                <button onclick="printResult()" class="bg-white hover:bg-gray-50 text-green-600 border-2 border-green-600 px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    🖨️ Print Result
+                </button>
+            </div>
+        </div>
+
+        <!-- Error State -->
+        <div id="error-container" class="hidden text-center py-12">
+            <div class="bg-red-50 border border-red-200 rounded-2xl p-8">
+                <svg class="w-16 h-16 text-red-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                </svg>
+                <h3 class="text-xl font-bold text-red-800 mb-2">Analysis Failed</h3>
+                <p class="text-red-600 mb-4">We couldn't process your soil data. Please try again.</p>
+                <button onclick="goBack()" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg transition-colors">
+                    Try Again
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-green-800 text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="flex items-center justify-center space-x-2 mb-2">
+                <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                </svg>
+                <span class="font-bold">Smart Krishi 1.0 🌱</span>
+            </div>
+            <p class="text-green-200">© 2025 Smart Krishi 1.0. All rights reserved.</p>
+            <p class="text-green-300 mt-1">Empowering farmers, nurturing the future.</p>
+        </div>
+    </footer>
+
+    <script>
+        function goBack() {
+            window.location.href = '/';
+        }
+
+        function printResult() {
+            window.print();
+        }
+
+        function formatAIResponse(text) {
+            // Convert markdown-like formatting to HTML
+            let formatted = text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/\n\n/g, '</p><p>')
+                .replace(/\n/g, '<br>');
+            
+            // Wrap in paragraph tags
+            formatted = '<p>' + formatted + '</p>';
+            
+            // Handle numbered lists
+            formatted = formatted.replace(/(\d+\.\s)/g, '<br><strong>$1</strong>');
+            
+            return formatted;
+        }
+
+        // Get soil data from URL parameters or localStorage
+        function getSoilData() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const soilData = urlParams.get('data');
+            
+            if (soilData) {
+                return decodeURIComponent(soilData);
+            }
+            
+            // Fallback to localStorage
+            return localStorage.getItem('soilAnalysisData') || 'No soil data available';
+        }
+
+        // Call AI API
+        async function analyzeData() {
+            try {
+                const soilData = getSoilData();
+                
+                const response = await fetch('/ask-ai', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ input: soilData })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to get AI response');
+                }
+
+                const data = await response.json();
+                
+                // Hide loading, show result
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('result-container').classList.remove('hidden');
+                
+                // Display formatted response
+                document.getElementById('ai-response').innerHTML = formatAIResponse(data.output);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                
+                // Hide loading, show error
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('error-container').classList.remove('hidden');
+            }
+        }
+
+        // Start analysis when page loads
+        window.addEventListener('load', analyzeData);
+    </script>
+</body>
+</html>
