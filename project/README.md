@@ -196,7 +196,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Smart Krishi 1.0 Team**
 
 - 📧 Email: support@smartkrishi.com
-- 📱 Phone: +91 9333727126
+- 📱 Phone: +91 9135121836
 - 🌐 Website: [Smart Krishi 1.0](https://smart-krishi-sathi-s-2s7t.bolt.host)
 - 📍 Location: Asansol, West Bengal, India
 
